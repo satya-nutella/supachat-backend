@@ -26,17 +26,14 @@ io.use((socket, next) => {
 });
 
 io.on("connection", (socket) => {
-    const currentUser = socket.username;
     const users = [];
 
     for(const [id, socket] of io.of("/").sockets) {
-        if(socket.username !== currentUser) {
-            users.push({
-                username: socket.username,
-                uid: socket.uid
-            });
-        }
+        users.push({
+            username: socket.username,
+            uid: socket.uid
+        });
     }
 
-    socket.emit("users", users);
+    io.emit("users", users);
 });
